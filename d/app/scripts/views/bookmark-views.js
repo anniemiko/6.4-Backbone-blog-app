@@ -24,30 +24,48 @@ addBookmark: function(event){
 }
 });
 
-var ListView = Backbone.View.extend({
+var BookmarkListView = Backbone.View.extend({
   tagName: 'ul',
-  className: 'form-control',
-  // initialize: function(config){
-  //   this.template = require(config.template);
-  // },
-  render: function(){
-    return this;
-  }
-});
-
-var ListItemView = Backbone.View.extend({
-  tagName: 'li',
-  className: 'form-control',
+  className: 'list-group',
   initialize: function(config){
-    this.template = require(config.template);
+    this.listenTo(this.collection, 'add', this.addBookmark)
+    // this.template = require(config.template);
   },
   render: function(){
     return this;
+  },
+  addBookmark: function(bookmark){
+    var bookmarkItem = new BookmarkItemView({model: bookmark});
+    this.$el.append(bookItem.render().el);
   }
 });
 
+var BookmarkItemView = Backbone.View.extend({
+  tagName: 'li',
+  className: 'list-group-item',
+  template: tagTemplate,
+  render: function(){
+    var renderedTemplate = this.template(this.model.toJSON());
+    this.$el.html(renderedTemplate);
+    return this;
+  }
+  // initialize: function(config){
+  //   this.template = require(config.template);
+  // },
+});
+
+var BookmarkDetailView = Backbone.View.extend({
+  className: 'detail',
+  template: tagDetailTemplate,
+  render: function(){
+    var renderedTemplate = this.template(this.model.toJSON());
+    this.$el.html(renderedTemplate);
+  }
+})
+
 module.exports = {
   FormView: FormView,
-  ListView: ListView,
-  ListItemView: ListItemView
+  BookmarkListView: BookmarkListView,
+  BookmarkItemView: BookmarkItemView,
+  BookmarkDetailView: BookmarkDetailView
 };

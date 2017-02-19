@@ -14,16 +14,20 @@ var AppRouter = Backbone.Router.extend({
     'bookmarks/:tag': 'showTags'
   },
   initialize: function(){
-
+    this.bookMarks = new models.BookmarkCollection();
   },
   index: function(){
     var bookmarks = new models.BookmarkCollection();
-    var form = new views.FormView({collection: bookmarks})
+    var form = new views.FormView({collection: bookmarks});
     $('.bookmark-form').append(form.render().el);
+    this.bookMarks.fetch();
   },
   showTags: function(){
-    new views.ListView({template: '../templates/tags.hbs'}) ;
-    $('.list-view').append(template.render().el);
+    var tag = this.bookMarks.findWhere({'tag': tag});
+    var tagDetail = new views.BookmarkDetailView({model: tag});
+    $('.app').html(tagDetail.render().el);
+    // new views.ListView({template: '../templates/tags.hbs'}) ;
+    // $('.list-view').append(template.render().el);
   }
 });
 
