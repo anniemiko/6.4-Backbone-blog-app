@@ -7,9 +7,9 @@ var views = require('./views/blog-views.js');
 var AppRouter = Backbone.Router.extend({
   routes: {
     '': 'index',
+    'blog/:id': 'showPost',
     'login': 'showLogIn',
-    'blogger': 'showBloggerView',
-    'blog/:id': 'showPost'
+    'blogger': 'showBloggerView'
   },
   initialize: function(){
     this.blogs = new models.BlogCollection();
@@ -20,6 +20,7 @@ var AppRouter = Backbone.Router.extend({
     this.blogs.fetch();
     var blogCreate = new views.BlogFormView({collection: this.blogs});
     $('#blogCreate').append(blogCreate.render().el);
+    console.log(this.blogs);
   },
   // login: function(){
   //   $('button').on('click', function(e){

@@ -18,7 +18,7 @@ var HomeView = Backbone.View.extend({
     return this;
   },
   addBlog: function(post){
-    var blogList = new BlogPostView({model: post});
+    var blogList = new BlogItemView({model: post});
     this.$el.append(blogList.render().el);
   }
 });
@@ -74,7 +74,6 @@ var BlogListView = Backbone.View.extend({
 });
 
 var BlogItemView = Backbone.View.extend({
-  tagName: 'li',
   className: 'blog-item',
   itemtemplate: blogListTemplate,
   render: function(){
