@@ -16,9 +16,24 @@ var AppRouter = Backbone.Router.extend({
   },
   index: function(){
     var blogHome = new views.HomeView({collection: this.blogs});
-    $('.app').html(blogHome.render().el);
+    $('#blogPosts').append(blogHome.render().el);
     this.blogs.fetch();
+    var blogCreate = new views.BlogFormView({collection: this.blogs});
+    $('#blogCreate').append(blogCreate.render().el);
   },
+  // login: function(){
+  //   $('button').on('click', function(e){
+  //     var $renderedModal = $(modal());
+  //     $('.app').html($renderedModal);
+  //     renderedModal.modal('show');
+  //   })
+  // }
+  showPost: function(id){
+    var blog = this.blogs.findWhere({'_id': id});
+    // console.log(blog);
+    var blogFull = new views.BlogPostView({model: blog});
+    $('#blogCMS').html(blogFull.render().$el);
+  }
 });
 
 var router = new AppRouter();
